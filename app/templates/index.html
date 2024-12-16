@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Data Management</title>
+</head>
+<body>
+    <h1>Data Management</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class=flashes>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <div>
+        <label for="timer_value">Current Timer Value:</label>
+        <span id="timer_value">{{ timer_value }}</span>
+        <form action="{{ url_for('update_timer') }}" method="post">
+            <input type="text" name="new_timer_value" placeholder="Enter new timer value (hh:mm:ss)">
+            <button type="submit">Update Timer</button>
+        </form>
+    </div>
+    <table border="1">
+        <tr>
+            <th>Target Chat ID</th>
+            <th>Name Chat</th>
+            <th>Destination Email</th>
+            <th>Actions</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row.target_chat_id }}</td>
+            <td>{{ row.name_chat }}</td>
+            <td>{{ row.dest_email }}</td>
+            <td>
+                <a href="{{ url_for('edit', index=loop.index0) }}">Edit</a>
+                <a href="{{ url_for('delete_row', index=loop.index0) }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="{{ url_for('add_row') }}">Add Row</a>
+    <br>
+    <a href="{{ url_for('download_logs') }}">View Logs</a>
+</body>
+</html>

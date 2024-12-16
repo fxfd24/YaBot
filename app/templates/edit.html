@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Row</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Edit Row</h1>
+    <form method="POST">
+        <label for="target_chat_id">Target Chat ID:</label>
+        <input type="text" id="target_chat_id" name="target_chat_id" value="{{ row.target_chat_id }}"><br>
+        <label for="name_chat">Name Chat:</label>
+        <input type="text" id="name_chat" name="name_chat" value="{{ row.name_chat }}"><br>
+        <label for="dest_email">Dest Email:</label>
+        <input type="text" id="dest_email" name="dest_email" value="{{ row.dest_email }}"><br>
+        <input type="submit" value="Save">
+    </form>
+</body>
+</html>
