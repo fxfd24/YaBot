@@ -12,6 +12,7 @@ import re
 import logging
 from datetime import datetime
 import threading
+from transliterate import translit
 
 # Настройка логирования
 logging.basicConfig(filename='telegram_bot.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -170,7 +171,8 @@ def send_email(email_text, file_path=None, dest_email=None, order=None, telegram
 
     # Attach the email body
     msg.attach(MIMEText(email_text, 'plain', 'utf-8'))
-
+    # print(returner_number_order(file_path))
+    transliterated_file_path = translit(file_path, 'ru', reversed=True)
     # Attach the file if provided
     if file_path and os.path.exists(file_path):
         with open(file_path, 'rb') as attachment:
@@ -179,7 +181,8 @@ def send_email(email_text, file_path=None, dest_email=None, order=None, telegram
             encoders.encode_base64(part)
             part.add_header(
                 'Content-Disposition',
-                f'attachment; filename = files{get_file_type(file_path)}',
+                f'attachment; filename = {transliterated_file_path}',
+                # f'attachment; filename = {returner_number_order(file_path)}{get_file_type(file_path)}',
             )
             msg.attach(part)
     else:
